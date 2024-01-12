@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title> Приветствие </title>
+</head>
+
+<body>
+    <p>
+        {% if name == "" %}
+            Введите имя, пожалуйста!
+        {% else %}
+            Привет, 
+            {% if gender == "m" %}
+                студент
+            {% elif gender == "w" %}
+                студентка
+            {% endif %}
+            {{name}}!
+        {% endif %}
+        <p>
+            Ваша образовательная программа: {{program}}.
+        </p>
+        <p>
+            Вы изучаете дисциплины:
+            {% if len(subjects_select) == 0 %}
+                Вы не изучаете никаких дисциплин.
+            {% else %}
+                {% for sub in range(len(subjects_select)) %}
+                    {% if sub == len(subjects_select) - 1 %}
+                        <a href={{ url_for('subject', sub=subjects_select[sub]) }}> {{subjects_select[sub]}}. </a>
+                    {% else %}
+                        <a href={{ url_for('subject', sub=subjects_select[sub]) }}> {{subjects_select[sub]}}, </a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </p>
+    </p>
+</body>
