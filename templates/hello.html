@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title> Приветствие </title>
+</head>
+
+<body>
+    <form action="{{ url_for('index') }}" method="get">
+        <p>Имя: <input type = text value = {{name}}></p>
+        <p>Пол:<br>
+            {% if gender == "m" %}
+                <input type = radio name = gender value=w> Ж <br>
+                <input type = radio name = gender value=m checked> M 
+            {% elif gender == "w" %}
+                <input type = radio name = gender value=w checked> Ж <br>
+                <input type = radio name = gender value=m> M 
+            {% else %}
+                <input type = radio name = gender value=w> Ж <br>
+                <input type = radio name = gender value=m> M 
+            {% endif %}
+        </p>
+
+        <p>
+            Образовательная программа:
+            <select name = program>
+                {% for i in range(len(program_list)) %}
+                    {%if program_list[i] == program %}
+                        <option value={{i}} selected>{{program_list[i]}}</option>
+                    {% else %} 
+                        <option value={{i}}>{{program_list[i]}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            Выберите дисциплины, которые Вы изучаете:<br>
+            {% for i in range(len(subject_list)) %}
+                {% if subject_list[i] in subjects_select %}
+                    <input type = checkbox name = subject[] value = {{i}} checked> 
+                    {{subject_list[i]}}<br> 
+                {% else %}
+                    <input type = checkbox name = subject[] value = {{i}}> 
+                    {{subject_list[i]}}<br> 
+                {% endif %}
+            {% endfor %}
+        </p>
+
+        <p> 
+            <input type=button value=Отправить> 
+            <input type=submit value=Очистить>
+        </p>
+    </form>
+    <p>
+        {% if name == "" %}
+            Введите имя, пожалуйста!
+        {% else %}
+            Привет, 
+            {% if gender == "m" %}
+                студент
+            {% elif gender == "w" %}
+                студентка
+            {% endif %}
+            {{name}}!
+        {% endif %}
+        <p>
+            Ваша образовательная программа: {{program}}.
+        </p>
+        <p>
+            Вы изучаете дисциплины:
+            {% if len(subjects_select) == 0 %}
+                Вы не изучаете никаких дисциплин.
+            {% else %}
+                {% for sub in range(len(subjects_select)) %}
+                    {% if sub == len(subjects_select) - 1 %}
+                        <a href={{ url_for('subject', sub=subjects_select[sub]) }}> {{subjects_select[sub]}}. </a>
+                    {% else %}
+                        <a href={{ url_for('subject', sub=subjects_select[sub]) }}> {{subjects_select[sub]}}, </a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </p>
+    </p>
+</body>

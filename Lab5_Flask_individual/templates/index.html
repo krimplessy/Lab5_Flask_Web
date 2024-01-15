@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <link rel="stylesheet" type="text/css" href="../static/style.css">
+
+
+            {% macro dimension_table_render(table_name, dimension, points) %}
+                <b>{{table_name}}:</b>
+                <table>
+                    <tr>
+                        {% for i in range(dimension + 1) %}
+                            <th>
+                                {% if i != 0 %}
+                                    {{i}}-th dimension
+                                {% endif %}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                    {% for i in range(2) %}
+                        <tr>
+                            {% for j in range(dimension + 1) %}
+                                <td>
+                                    {% if j == 0 %}
+                                        <b>{{i + 1}}-th point</b>
+                                    {% else %}
+                                        {% if points|length == 0 %}
+                                            <input type="number" name={{table_name}}_{{i + 1}}_{{j}}>
+                                        {% else %}
+                                            <input type="number" value={{points[i][j-1]}} name={{table_name}}_{{i + 1}}_{{j}}>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endmacro %}
+
+    </head>
+    <body>
+            <form action="{{ url_for('index') }}" method="get">
+                <label>dimension: <input type="number" name="dimension" value={{dimension}}></label><br>
+                <input class="button" type="submit" name="show" value="show">
+                <div>
+                    {{dimension_table_render("vec_1", dimension, points_1)}}
+                    <br>
+                    {{dimension_table_render("vec_2", dimension, points_2)}}
+                    <br>
+                </div>
+                <div class="form">
+                    calculate:<br>
+                    {% for i in range(operation|length) %}
+                        <input type="checkbox" name="calculate" value={{i}}>{{operation[i]}}<br>
+                    {% endfor %}
+                    <input class="button" type="submit" name="calculate" value="calculate">
+                    <input class="button" type="submit" name="clear" value="clear">
+                </div>
+                <div class="form">
+                    {% if "angle" in calculation_res %}
+                        <p class="text">Угол между векторами vec_1 и vec_2:<br> {{calculation_res["angle"]}}</p>
+                    {% endif %}
+                    {% if "sum" in calculation_res %}
+                        <p class="text">Сумма:<br> {{calculation_res["sum"]}}</p>
+                    {% endif %}
+                    {% if "vec_mul" in calculation_res %}
+                        <p class="text">Векторное произведение<br> {{calculation_res["vec_mul"]}}</p>
+                    {% endif %}
+
+                </div>
+            </form>
+    </body>
+</html>

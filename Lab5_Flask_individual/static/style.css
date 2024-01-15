@@ -1,0 +1,27 @@
+::selection{
+    background-color: lightgrey;
+}
+
+.button {
+    background-color: azure;
+}
+
+table{
+    border: solid black thin;
+    text-align: center;
+}
+
+td input[type="number"]{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+div.form{
+    border: black thin solid;
+}
+
+p.text{
+    margin: 1%;
+    background-color: white;
+}
